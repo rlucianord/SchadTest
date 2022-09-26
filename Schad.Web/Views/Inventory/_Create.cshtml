@@ -1,0 +1,205 @@
+﻿
+@model Modelo.Inventory
+<h4>Adding new Item</h4>
+
+
+
+@using (Html.BeginForm("Edit", "Inventory", FormMethod.Post, new { @id = "CreateForm", @onsubmit = "Inventory.createPost(event)" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.AllowOnDepositInvoices);
+    @Html.HiddenFor(model => model.AllowReturns);
+    @Html.HiddenFor(model => model.Date_Created);
+    @Html.HiddenFor(model => model.Import_Markup);
+    @Html.HiddenFor(model => model.Inventory_DiscLevels);
+    @Html.HiddenFor(model => model.Inventory_OnSale_Info);
+    @Html.HiddenFor(model => model.IsDeleted);
+    @Html.HiddenFor(model => model.ItemLocale);
+    @Html.HiddenFor(model => model.Last_Sold);
+    @Html.HiddenFor(model => model.Old_InStock);
+    @Html.HiddenFor(model => model.PricePerMeasure);
+    @Html.HiddenFor(model => model.Print_On_Receipt);
+    @Html.HiddenFor(model => model.QuantityRequired);
+    @Html.HiddenFor(model => model.ReOrder_Cost);
+    @Html.HiddenFor(model => model.Reorder_Level);
+    @Html.HiddenFor(model => model.Reorder_Quantity);
+    @Html.HiddenFor(model => model.RequireCustomer);
+    @Html.HiddenFor(model => model.Retail_Price);
+    @Html.HiddenFor(model => model.Store_ID);
+    @Html.HiddenFor(model => model.Unit_Size);
+    @Html.HiddenFor(model => model.Unit_Type);
+    @Html.HiddenFor(model => model.Vendor_Number);
+
+    @Html.HiddenFor(model => model.Retail_Price);
+    @Html.HiddenFor(model => model.ReOrder_Cost);
+    @Html.HiddenFor(model => model.Date_Created);
+    @Html.HiddenFor(model => model.Unit_Size);
+    @Html.HiddenFor(model => model.Print_On_Receipt);
+    @Html.HiddenFor(model => model.RequireCustomer);
+    @Html.HiddenFor(model => model.IsDeleted);
+    @Html.HiddenFor(model => model.ItemLocale);
+    @Html.HiddenFor(model => model.AllowOnDepositInvoices);
+    @Html.HiddenFor(model => model.Import_Markup);
+    @Html.HiddenFor(model => model.PricePerMeasure);
+    @Html.HiddenFor(model => model.Cost);
+
+
+
+
+
+
+
+
+
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-row">
+
+            <div class="col-md-5">
+                @Html.LabelFor(model => model.Dept_ID)
+
+                @Html.DropDownList("Dept_ID", (IEnumerable<SelectListItem>)ViewBag.Departamentos, "Item Department", new { @class = "full-width" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.ItemNum)
+
+
+                @Html.EditorFor(model => model.ItemNum, new { htmlAttributes = new { @placeholder = "Item Number", @class = "full-width", @autocomplete = "off", @index = "-9999" } })
+                @Html.ValidationMessageFor(model => model.ItemNum, "", new { @class = "text-danger", onkeydown = "return false;", onkeypress = "return false;", onfocusout = "return false;" })
+
+            </div>
+            @*<div class="col-md-5">
+                    @Html.LabelFor(model => model.Cost)
+
+                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @placeholder = "Avg Cost", @class = "full-width", type = "number", step = "0.01", min = "0" } })
+                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+
+                </div>*@
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.TaxRate)
+
+
+                @Html.DropDownList("TaxRate", (IEnumerable<SelectListItem>)ViewBag.TaxRate, new { @class = "full-width" })
+            </div>
+
+
+
+
+        </div>
+        <div class="form-row">
+            <div class="col-md-5">
+                @Html.LabelFor(model => model.ItemName)
+
+
+                @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @placeholder = "Description", @class = "full-width", type = "text", @index = "-9999" } })
+                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Price)
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @placeholder = "Price", @class = "full-width", type = "number", step = "0.01", min = "0" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+
+            </div>
+
+
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.In_Stock)
+
+                @Html.EditorFor(model => model.In_Stock, new { htmlAttributes = new { @placeholder = "In Stock", @class = "full-width", type = "number", step = "0.01", min = "0" } })
+                @Html.ValidationMessageFor(model => model.In_Stock, "", new { @class = "text-danger" })
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <div class="row justify-content-center">
+        <button type="submit" class="btn btn-link">
+            <img src="~/Images/icons/Group43.svg" />
+        </button>
+        <button class="btn btn-link" data-dismiss="modal">
+            <img src="~/Images/icons/Group65.svg" />
+        </button>
+    </div>
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+    $('#CreateForm').submit(function () {
+        if (!$(this).attr('validated')) {
+            if ($(this).valid()) {
+
+                //  document.getElementById("CreateCotizacion").submit();
+                $.ajax({
+                    type: "POST",
+                    data: $(this).serialize(),
+                    url: "../Create",
+                    dataType: 'json',
+                    success: function (response) {
+                        $('validationSummary').show();
+                        if (response == null || response==='OK') {
+                           alert('No Validation errors detected');
+                            $('#ApplicationForm').attr('validated', true);
+                            $('#ApplicationForm').attr('action', '/ApplicationForm/Index')
+
+                                .submit();
+                            return true;
+                        }
+                        else if (response !== null) {
+                            console.log('Validation errors detected');
+                            var errors = response['errors'];
+                            displayValidationErrors(errors);
+                            window.scrollTo(0, 0);
+                        }
+                        return false;
+                    },
+                    error: function (response) {
+                        $('validationSummary').hide();
+                        // console.log(response);
+                        return false;
+                    }
+
+                });
+
+            }
+
+        }
+        return false;
+    });
+
+
+    $(document).on("input", "#ItemNum", function (e) {
+        if (event.keyCode.event === 13 || event.keyCode === 10) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    $(document).on("keydown", "#ItemNum", function (e) {
+        if (event.keyCode === 13 || event.keyCode === 10) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    $(document).on("keypress", "#ItemNum", function (e) {
+        if (event.keyCode === 13 || event.keyCode === 10) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+
+
+
+</script>

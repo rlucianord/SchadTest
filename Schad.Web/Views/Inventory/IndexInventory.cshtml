@@ -1,0 +1,153 @@
+﻿
+@using SoftPOS.Models
+@model IEnumerable<InventoryViewModel>
+@{
+    ViewBag.Title = "Inventoy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10, canSort: true, defaultSort: "Id_Tax",
+ajaxUpdateContainerId: "gridContent",
+selectionFieldName: "selectedRow");
+
+}
+
+<div class="row">
+
+    <div class="col-md-9 cols-sm-8">
+
+        @using (Html.BeginForm())
+        {
+
+            <div class="input-group mb-3 input-group-lg">
+                <input class="form-control py-lg-3" type="search" placeholder="Search" aria-label="Search" name="SearchString" id="SearchString" onkeypress="Search()" onkeydown="Search()">
+                <div class="input-group-prepend">
+                    <button type="submit" value="Search" class="btn-sm e-search-custom-width">Search </button>
+                    <button class="btn-sm e-search-custom-width"> <a href="./InventoryStock">Restock</a> </button>
+
+
+
+                </div>
+            </div>
+
+
+
+        }
+    </div>
+    <div class="col-md-3 sol-sm-4">
+        <div class="input-group-prepend">
+            <div class="btnbbottom">
+
+                <button class="btnCreate" data-toggle="modal" data-target="#inventory-modal" onclick="Inventory.create();"> </button>
+
+
+                <button class="btnExit" onclick="Inventory.exit();">
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="gridContent" class="col-md-12">
+
+        @grid.GetHtml(tableStyle: "table table-content",
+         fillEmptyRows: false,
+         alternatingRowStyle: "alternate-row btn-default",
+         headerStyle: "btn-info btn-lg default",
+         footerStyle: "pager",
+
+        mode: WebGridPagerModes.All,
+         previousText: "<<Previous",
+         nextText: "Next>>",
+
+        columns: grid.Columns(
+            grid.Column("Department", format: @<text>
+                    @item.Department
+            </text>, style: ""),
+      grid.Column("ItemNum", format: @<text>
+                    @item.ItemNum
+    </text>, style: ""),
+grid.Column("Description", format: @<text>
+            @item.ItemName
+</text>, style: "col-md-2"),
+grid.Column("Price", format: @<text>
+        @item.Price.ToString("C2")
+</text>, style: "col-md-2"),
+grid.Column("Stock", format: @<text>
+        @item.In_Stock.ToString("F1")
+</text>),
+grid.Column("", format: @<text>
+        <div class="dropdown">
+            <button id="btnGroupDrop" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <img src="~/Images/icons/optionmenu.svg" style=" margin-top:-5px;" />
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item btnEdit" data-toggle="modal" data-id="@item.ItemNum" onclick="Inventory.edit('@item.ItemNum');">
+                    Edit Registry
+                </button>
+
+            </div>
+        </div>
+</text>
+)))
+    </div>
+</div>
+
+
+@Html.Partial("_Modal")
+
+<script src="~/Scripts/app/InventoryPartialViews.js"></script>
+
+<script>
+
+    $(window).keydown(function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    function Search() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("SearchString");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("gridContent");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                }
+                else {
+                    td = tr[i].getElementsByTagName("td")[1];
+
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+
+
+
+                    }
+                }
+            }
+        }
+    }
+
+    $(".table table-content tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown()
+        document.getElementById("SearchString").focus();
+
+
+    });
+</script>
+
+
+

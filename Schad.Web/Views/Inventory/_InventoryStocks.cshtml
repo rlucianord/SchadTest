@@ -1,0 +1,65 @@
+﻿@using SoftPOS.Models
+@model IEnumerable<InventoryViewModel>
+
+@{var count = 1; }
+<div class="row space">
+    <div class="col-md-10 space">
+        <div class="row mb-4">
+            <input id="search-stocks-inventory" type="text" class="search" placeholder="Search:" autofocus />
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("InventoryStocks", "Inventory",FormMethod.Post,new { @id="RestockForm", @onsubmit = "Inventory.addRestock(event)" }))
+            {
+                <label>Restock all</label>
+                <input type="number" id="restock" name="restock" value="0" />
+                <button class="blue-btn quick-btn">Update All</button>
+            }
+        </div>
+        <div class="row data-container">
+            <table class="table-pos" id="table-stocks">
+                <thead>
+                    <tr>
+                        <th>ItemNum</th>
+                        <th>Item Information</th>
+                        <th>Actual Stock</th>
+                        <th>Quantity to add</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="tr-@count" data-id="@item.ItemNum">
+                            <td>@item.ItemNum</td>
+                            <td>@item.ItemName</td>
+                            <td>@item.In_Stock.ToString("F1")</td>
+                            <td>
+                                <input class="restock-value" type="number" id="@item.ItemNum" name="s-@item.ItemNum"  value="0"/>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row couple-btn">
+            <button class="blue-btn quick-btn pull-right" onclick="Inventory.addSpeRestock()">Update</button>
+        </div>
+    </div>
+    <div class="col-md-2 space d-inline">
+        <img class="d-block" src="~/Images/icons/Scroll Disabledup.svg" />
+        <img class="d-block stick-b" src="~/Images/icons/Scroll Disableddown.svg" />
+    </div>
+</div>
+
+
+<script>
+    $("#table-products tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+    $(document).ready(function () {
+        document.getElementById("search-stocks-inventory").focus();
+        $('.dropdown-toggle').dropdown()
+    });
+</script>

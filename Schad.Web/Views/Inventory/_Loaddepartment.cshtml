@@ -1,0 +1,102 @@
+﻿
+@model IEnumerable<Modelo.Department>
+@{
+    ViewBag.Title = "Departments";
+    var count = 1;
+}
+
+<div class="row space">
+
+    <div class="col-md-10 space">
+        <div class="input-group mb-3 input-group-lg">
+            <input class="search  py-lg-3" type="text" placeholder="Search" aria-label="Search" name="search-items-departments" id="search-items-departments" />
+
+        </div>
+        <div class="row data-container">
+            <table class="table-pos" id="table-departments">
+                <thead>
+                    <tr>
+                        <th>#</th>
+
+                        <th>Description</th>
+                        <th>Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="tr-@count" data-id="@item.Dept_ID">
+                            <td>@count</td>
+                            <td>
+                                <div>
+                                    <p>@item.Description</p>
+                                    <p>@item.Dept_Notes</p>
+                                </div>
+                            </td>
+
+                            <td>
+
+                                <div class="dropdown">
+                                    <button id="btnGroupDrop" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <img src="~/Images/icons/optionmenu.svg" style=" margin-top:-5px;" />
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="">
+                                        <a href="#" id="btnedit" name="btnedit" class="dropdown-item btnEdit" onclick="Invoice.departmentEdit(@item.Dept_ID)" data-id="@item.Dept_ID">
+                                            Edit Registry
+                                        </a>
+                                        @*data-toggle="modal"*@
+
+                                    </div>
+                                </div>
+
+
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row couple-btn">
+            @*<button class="blue-btn quick-btn mr-3">Check Price</button>*@
+
+            <button class="btnCreate" onclick="Invoice.departmentcreate('')"> </button>
+        </div>
+    </div>
+    <div class="col-md-2 space d-inline">
+        <img class="d-block" src="~/Images/icons/Scroll Disabledup.svg" />
+        <img class="d-block stick-b" src="~/Images/icons/Scroll Disableddown.svg" />
+    </div>
+</div>
+
+<!--Template item-invoice-->
+<textarea style="display:none" id="template">
+<div class="item-invoice d-flex full-width align-self-start" id="{0}" data-id="{0}" data-quantity="{3}" data-price="{1}">
+<div class="d-inline-block menu-invoice align-self-center">
+
+      
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@*<script src="~/Scripts/app/Departments.js"></script>*@
+
+
+<script>
+
+
+    jQuery(document).ready(function () {
+        $('.dropdown-toggle').dropdown()
+    });
+
+
+
+    document.getElementById("search-items-departments").focus();
+    $('.dropdown-toggle').dropdown();
+
+
+</script>
+
+
+

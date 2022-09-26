@@ -1,0 +1,98 @@
+﻿@using Schad.Web.Models
+@model IEnumerable<InventoryViewModel>
+@{var count = 1; }
+<div class="row space">
+    <div class="col-md-10 space">
+        <div class="row mb-4">
+            <input id="search-items-inventory" type="text" class="search" placeholder="Search:" autofocus />
+        </div>
+        <div class="row data-container">
+            <table class="table-pos" id="table-inventory">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>ItemNum</th>
+                        <th>Item Information</th>
+
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="tr-@count" data-id="@item.ItemNum">
+                            <td> @item.ItemNum</td>
+                            <td>
+
+                                @item.ItemName
+
+                            </td>
+
+                            <td>@item.Price.ToString("C2")</td>
+                            <td>@item.In_Stock.ToString("F1")</td>
+
+                            <td>
+                                <div class="dropdown">
+                                    <button id="btnGroupDrop" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <img src="~/Images/icons/optionmenu.svg" style=" margin-top:-5px;" />
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button class="dropdown-item btnEdit" data-toggle="modal" data-id="@item.ItemNum" onclick="Inventory.edit('@item.ItemNum');">
+                                            Edit Registry
+                                        </button>
+
+                                    </div>
+                                </div>
+
+
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row couple-btn">
+            @*<button class="blue-btn quick-btn mr-3">Check Price</button>*@
+
+            <button class="btn btn-link" data-toggle="modal" data-target="#inventory-modal" onclick="Inventory.create();">
+                <img src="~/Images/icons/Group66.svg" />
+            </button>
+            <button class="btn btn-link" onclick="Inventory.restock('');">
+                Restock
+            </button>
+        </div>
+    </div>
+    <div class="col-md-2 space d-inline">
+        <img class="d-block" src="~/Images/icons/Scroll Disabledup.svg" />
+        <img class="d-block stick-b" src="~/Images/icons/Scroll Disableddown.svg" />
+    </div>
+</div>
+<!--Modal-->
+<div class="modal fade" id="inventory-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="inventory-modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="inventoryLabel">Maintainance: Inventory</h2>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body" id="inventory-modal-body">
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#table-products tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+    $(document).ready(function () {
+        document.getElementById("search-items-inventory").focus();
+        $('.dropdown-toggle').dropdown()
+    });
+</script>

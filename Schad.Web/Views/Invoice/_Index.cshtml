@@ -1,0 +1,94 @@
+﻿@using Schad.Web.Models
+@model IEnumerable<InventoryViewModel>
+
+@{var count = 1; }
+<div class="row space">
+    <div class="col-md-10 space">
+        <div class="row mb-10">
+            <input id="search-items" type="text" class="search" placeholder="Search:" autofocus maxlength="14" />
+            @Html.DropDownList("CustomerId")
+
+            <button class="quick-btn mr-1" onclick="Invoice.index('',false);">Quick Launch</button>
+        </div>
+        <div class="row data-container">
+            @if (Model.Count() == 0)
+            {
+                <div class="full-width">
+                    <img class="center-img" src="~/Images/icons/scanbig.svg" />
+                    <p class="text-scan">You are ready to Scan products</p>
+                </div>
+            }
+            else
+            {
+                <table class="table-pos table-responsive-lg" id="table-products">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item Information</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="tr-@count" data-id="@item.ItemNum" onclick="InvoiceLines.add('@item.ItemNum', @item.In_Stock);"  >
+                                <td>
+                                    <div>
+                                        <p>@item.ItemNum @@ @item.Price.ToString("C2")</p>
+                                        <p>@item.ItemName</p>
+                                    </div>
+                                </td>
+                                <td>@item.In_Stock.ToString("F1")</td>
+                                <td>@item.Price.ToString("C2")</td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        @*<button class="blue-btn quick-btn mr-3">Check Price</button>
+            <button class="blue-btn quick-btn">Departments</button>*@
+
+        @*<button class="quick-btn mr-3" onclick="Invoice.index('');">Quick Launch</button>
+            <button class="quick-btn" onclick="Inventory.index('a');">Inventory</button>*@
+
+
+
+
+
+    </div>
+    <div class="col-md-2 space d-inline">
+        <img class="d-block" src="~/Images/icons/Scroll Disabledup.svg" />
+        <img class="d-block stick-b" src="~/Images/icons/Scroll Disableddown.svg" />
+    </div>
+</div>
+<script>
+    $("#table-products tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+    $(document).ready(function () {
+        document.getElementById("search-items").focus();
+    });
+</script>
+@if (Model.Count() == 1)
+{
+
+    <script>
+
+        InvoiceLines.add('@Model.FirstOrDefault().ItemNum',@Model.FirstOrDefault().In_Stock );
+    </script>
+}
+else if (Model.Count() == 0 && (bool)ViewBag.Search)
+{
+    <script>
+        var confirmNew = confirm("Item not found! Want to add as new item?");
+        if (confirmNew) {
+            Inventory.index(' ', true);
+        }
+    </script>
+}

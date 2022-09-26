@@ -1,0 +1,155 @@
+﻿
+@using SoftPOS.Models
+@model IEnumerable<InventoryViewModel>
+@{
+    ViewBag.Title = "Inventoy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10, canSort: true, defaultSort: "Id_Tax",
+ajaxUpdateContainerId: "gridContent",
+selectionFieldName: "selectedRow");
+
+}
+
+<div class="row">
+    
+    <div class="col-md-8 cols-sm-8">
+
+        @using (Html.BeginForm())
+        {
+
+            <div class="input-group mb-3 input-group-lg">
+                <input class="form-control py-lg-3" type="search" placeholder="Search" aria-label="Search" name="SearchString" id="SearchString">
+
+            </div>
+
+        }
+    </div>
+    <div class="col-md-4 sol-sm-4">
+        <div class="input-group-prepend">
+            <div class="btnbbottom">
+                <button class="btnCreate" data-toggle="modal" data-target="#inventory-modal" onclick="Inventory.create();"> </button>
+
+
+                <button class="btnExit" >
+                
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="gridContent" class="col-md-12">
+
+        @grid.GetHtml(tableStyle: "table table-content",
+         fillEmptyRows: false,
+         alternatingRowStyle: "alternate-row btn-default",
+         headerStyle: "btn-info btn-lg default",
+         footerStyle: "pager",
+
+        mode: WebGridPagerModes.All,
+         previousText: "<<Previous",
+         nextText: "Next>>",
+
+        columns: grid.Columns(grid.Column("ItemNum", format: @<text>
+                @item.ItemNum
+
+        </text>),
+grid.Column("Description", format: @<text>
+
+        @item.ItemName
+
+    </text>, style: "col-md-3")
+,
+         grid.Column("Price", format: @<text>
+
+                        @item.Price.ToString("C2")
+
+                        grid.Column("Stock", format: @<text>
+                            @item.In_Stock.ToString("F1")
+
+
+                        </text>, style: "col-md-2"),
+
+        </text>, style: "col-md-2"),
+
+ grid.Column("", format: @<text>
+
+
+
+
+
+        <div class="dropdown">
+            <button class="btn btn-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="~/Images/icons/optionmenu.svg" />
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item" type="button" data-toggle="modal" data-id="@item.ItemNum"
+                        onclick="Inventory.edit('@item.ItemNum');">
+                    Edit Registry
+                </button>
+            </div>
+        </div>
+
+    </text>
+)))
+    </div>
+</div>
+
+
+
+@Html.Partial("_Modal")
+
+<script src="~/Scripts/app/InventoryPartialViews.js"></script>
+<script>
+
+
+    //$(".btnCreate").click(function (evt) {
+
+    //    $('#inventory-modal').modal({ backdrop: 'static', keyboard: false, show: true });
+    //     $('#inventory-modal').modal('show');
+
+    //    $("#modal-content").load("./Inventory/Create");
+
+    //});
+
+
+    //$(".btnedit").click(function (evt) {
+
+    //    $("#modal-content").load("./Inventory/Edit/" + $(this).data("id"));
+    //    $('#inventory-modal').modal({ backdrop: 'static', keyboard: false, show: true });
+    //    document.getElementById("inventory-modal").style.display = "block";
+    //    $('#inventory-modal').modal('show');
+    //});
+
+    //$(".btnExit").click(function (evt) {
+
+
+    //    window.location = "./Home";
+    //});
+
+    $("#table-products tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown()
+        document.getElementById("SearchString").focus();
+
+    $(".btnExit").click(function (evt) {
+
+
+    window.location = "./Home";
+});
+
+
+
+    });
+</script>
+
+
+

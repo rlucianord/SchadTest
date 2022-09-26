@@ -1,0 +1,72 @@
+﻿@using Schad.Models.Data
+@model Product
+<h4>Editing item: @Model.Id</h4>
+
+@using (Html.BeginForm("Edit", "Inventory", FormMethod.Post, new { @id = "EditForm", @onsubmit = "Inventory.editPost(event)" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Id);
+
+
+
+
+
+
+
+
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-row">
+
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Id)
+
+
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @placeholder = "Item Number", @class = "full-width", @autocomplete = "off", @index = "-9999" } })
+                @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger", onkeydown = "return false;", onkeypress = "return false;", onfocusout = "return false;" })
+
+            </div>
+            @*<div class="col-md-5">
+                    @Html.LabelFor(model => model.Cost)
+
+                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @placeholder = "Avg Cost", @class = "full-width", type = "number", step = "0.01", min = "0" } })
+                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+
+                </div>*@
+
+        </div>
+        <div class="form-row">
+            <div class="col-md-5">
+                @Html.LabelFor(model => model.Description)
+
+
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @placeholder = "Description", @class = "full-width", type = "text", @index = "-9999" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Price)
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @placeholder = "Price", @class = "full-width", type = "number", step = "0.01", min = "0" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row justify-content-center">
+        <button type="submit" class="btn btn-link">
+            <img src="~/Images/icons/Group43.svg" />
+        </button>
+        <button class="btn btn-link" data-dismiss="modal">
+            <img src="~/Images/icons/Group65.svg" />
+        </button>
+    </div>
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,78 @@
+﻿
+@model Modelo.Inventory
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<h4>Adding new Item</h4>
+
+@*<script>
+
+    $('#CreateForm').submit(function () {
+        if (!$(this).attr('validated')) {
+            if ($(this).valid()) {
+
+                //  document.getElementById("CreateCotizacion").submit();
+                $.ajax({
+                    type: "POST",
+                    data: $(this).serialize(),
+                    url: "../Create",
+                    dataType: 'json',
+                    success: function (response) {
+                        $('validationSummary').show();
+                        if (response == null || response==='OK') {
+                           alert('No Validation errors detected');
+                            $('#ApplicationForm').attr('validated', true);
+                            $('#ApplicationForm').attr('action', '/ApplicationForm/Index')
+
+                                .submit();
+                            return true;
+                        }
+                        else if (response !== null) {
+                            console.log('Validation errors detected');
+                            var errors = response['errors'];
+                            displayValidationErrors(errors);
+                            window.scrollTo(0, 0);
+                        }
+                        return false;
+                    },
+                    error: function (response) {
+                        $('validationSummary').hide();
+                        // console.log(response);
+                        return false;
+                    }
+
+                });
+
+            }
+           
+        }
+        return false;
+    });
+
+
+    $(document).on("input", "#ItemNum", function (e) {
+        if (event.keyCode.event === 13 || event.keyCode === 10) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    $(document).on("keydown", "#ItemNum", function (e) {
+        if (event.keyCode === 13 || event.keyCode === 10) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    $(document).on("keypress", "#ItemNum", function (e) {
+        if (event.keyCode === 13 || event.keyCode === 10) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+
+  
+
+    </script>*@

@@ -1,0 +1,847 @@
+﻿/*Inventory*/
+#inventory-modal-body .row {
+    padding-bottom: 15px;
+}
+/*Payment*/
+.pay-disabled {
+    background-color: #DFE3EA !important;
+    border: 0 !important;
+}
+.payment-total {
+    background: #DFE3EA;
+    border-radius: 3px;
+    padding: 10px 100px;
+    margin: 50px 40px;
+}
+
+    .payment-total p {
+        margin-bottom: 13px
+    }
+
+#total-label-pay {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #0928F5;
+}
+
+#total-money-pay {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    color: #0928F5;
+}
+
+.payment-total-pay div {
+    border-top: 0.5px solid rgba(60, 61, 79, 0.5);
+    padding-top: 13px;
+}
+
+.denomination-money {
+    max-width: 232px;
+    margin: 0 auto;
+}
+
+.currency-btn {
+    width: 64px;
+    height: 43px;
+    background: #FFFFFF;
+    border: 1px solid #7D828A;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #3C3D4F;
+}
+
+#currency-10,
+#currency-20,
+#currency-50 {
+    background: #FFCC00;
+    border: 0;
+}
+
+#currency-100 {
+    background: #0928F5;
+    border: 0;
+    color: #ffffff;
+}
+
+.finish-invoice,
+.opt-button {
+    width: fit-content;
+    margin: 40px auto;
+}
+
+    .finish-invoice button,
+    .opt-button button {
+        background: #FFFFFF;
+        border: 1px solid #0928F5;
+        box-sizing: border-box;
+        border-radius: 8px;
+        color: #0928F5;
+        padding: 10px;
+    }
+
+#print-btn,
+#btn-opt-apply {
+    background: #0928F5;
+    color: #ffffff;
+}
+/*Payment*/
+/*Invoice*/
+
+#subtotal-label, #tax-label {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+#subtotal-money, #tax-money {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+
+.full-width {
+    width: 100%;
+}
+
+.invoce-action {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    color: #3C3D4F;
+}
+
+.pay-btn {
+    width: 100%;
+    background: #0928F5;
+    border-radius: 8px;
+    color: #FFFFFF;
+    padding: 7px 5px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+    .pay-btn p {
+        margin-bottom: 0;
+        margin: 3px;
+    }
+
+#pay-text {
+    border-right: 1px solid #FFFFFF;
+    margin-right: 10px;
+}
+
+    #pay-text p {
+        font-style: normal;
+        font-size: 20px;
+        line-height: 22px;
+        text-align: initial;
+    }
+
+#pay-money {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 17px;
+    text-align: right;
+}
+.pay-method {
+width:125px;
+margin-left:-25px;
+}
+
+#item-invoice {
+    overflow: auto;
+    height: 41vh;
+}
+
+.item-invoice {
+    height: fit-content;
+}
+
+.info-invoice {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: #DFE3EA;
+    border-radius: 8px;
+}
+
+    .info-invoice p {
+        margin-bottom: 0;
+    }
+
+.text-info-invoice {
+    text-align: initial;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 9px;
+    line-height: 11px;
+}
+
+.quantity-info, .price-info {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    color: #3C3D4F;
+}
+
+/*Table pos*/
+.table-pos {
+    border: 0;
+    color: #3C3D4F;
+    width: 100%;
+    border-spacing: 0px 3px;
+    border-collapse: separate;
+}
+
+    .table-pos td {
+        background: #DFE3EA;
+        padding: 7px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    .table-pos p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .table-pos th {
+        height: 50px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 17px;
+        border-top: 1px solid #DFE3EA;
+        border-bottom: 1px solid #DFE3EA;
+        padding-left: 7px;
+    }
+
+tbody:before {
+    line-height: 20px;
+    /* content: "_";*/
+    color: white;
+    display: block;
+}
+
+.table-pos tbody tr td:first-child {
+    border-left: 8px solid #DFE3EA;
+}
+
+.table-pos thead tr th:first-child {
+    border-left: 8px solid #fff;
+}
+
+.selected {
+    border-left: 8px solid #0928F5 !important;
+}
+/*Table pos*/
+.data-container {
+    overflow: auto;
+    max-height: 50vh;
+    height: 100%;
+    align-content: baseline;
+}
+
+.product-id {
+    text-align: center;
+    width: 100%;
+}
+
+.center-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mt-5 {
+    width: 100%;
+}
+
+.text-scan {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.25);
+}
+
+.blue-btn {
+    background: #0928F5 !important;
+    color: #ffffff !important;
+}
+
+.quick-btn {
+    padding: 15px;
+    border: 0;
+    border-radius: 8px;
+    color: #3C3D4F;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.space {
+    height: 65vh;
+}
+
+.stick-b {
+    position: absolute;
+    bottom: 0;
+}
+
+.couple-btn {
+    position: inherit;
+    margin-top: 1.5%;
+}
+
+.search {
+    width: 100%;
+    padding-left: 20px;
+    background: #DFE3EA;
+    color: #3C3D4F;
+}
+
+input,
+select,
+textarea {
+    height: 43px;
+    border-radius: 8px;
+    border: 1px solid #C1CBDC;
+    color: #7D828A;
+    padding-left: 10px;
+    font-weight: 400;
+}
+/*Invoice*/
+body {
+    background-color: #DFE3EA;
+    color: #3C3D4F;
+    overflow-y: hidden;
+    position: page;
+}
+
+.bg-main {
+    background-color: #DFE3EA;
+}
+
+/*elements top*/
+.btn-darkest {
+    color: #3C3D4F;
+    background-color: #C1CBDC;
+    border-color: #C1CBDC;
+    font-weight: bolder;
+}
+
+span.synced {
+    background-color: #24E886;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    border-radius: 100px;
+}
+
+/*rewritting*/
+#screen {
+    min-height: 80vh;
+    max-height: 95vh;
+    border-radius: 35px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    margin-top: -15px;
+}
+
+.jumbotron {
+    background-color: #fff;
+    padding: 1em;
+}
+
+    .jumbotron h1 {
+        /*color: #DFE3EA;*/
+        font-weight: lighter;
+    }
+
+#search-main {
+    color: #3c3c3c !important;
+    background-color: #DFE3EA !important;
+}
+
+/*general*/
+div.start-img {
+    margin-top: 15%;
+}
+
+#rightside button {
+    margin-left: 10px;
+}
+
+#leftside ul {
+    list-style: none;
+    padding: 0;
+}
+
+    #leftside ul img {
+        min-height: 80px;
+    }
+
+#leftside li {
+    margin-bottom: 2em;
+}
+
+#syncstatus h6 {
+    text-align: center;
+}
+
+#top {
+    padding: 1.5%;
+}
+
+.btn-secondary {
+    height: 60px;
+    width: 60%;
+    border: 1px;
+    margin-bottom: 5px;
+}
+
+.save {
+    border: none;
+    color: #0720c4;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background: none;
+}
+
+    .save:hover {
+        background: none;
+    }
+
+    .save:before {
+        content: url(/Images/icons/savebottom.svg);
+        width: 20px;
+        margin-right: 5px;
+        margin-top: -2px;
+    }
+
+.btnCreate {
+    border: none;
+    color: #0720c4;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background: none;
+}
+
+    .btnCreate:hover {
+        background: none;
+    }
+
+    .btnCreate:before {
+        content: url(/Images/icons/Group66.svg);
+        width: 20px;
+        margin-right: 5px;
+        margin-top: -2px;
+    }
+
+.btnExit {
+    border: none;
+    color: #0720c4;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background: none;
+}
+
+    .btnExit:hover {
+        background: none;
+    }
+
+    .btnExit:before {
+        content: url(/Images/icons/Group65.svg);
+        width: 20px;
+        margin-right: 5px;
+        margin-top: -2px;
+    }
+
+.btnbbottom {
+    bottom: 10%;
+    margin-top: -10px;
+    margin-left: -15px;
+    right: auto;
+}
+
+.input-group-prepend {
+    display: inline-flex;
+    height: 50px;
+}
+
+.card-body {
+    padding: 0px;
+    border: 0px;
+    top: 5px;
+    margin-top: 5px;
+}
+
+.setup {
+    margin: 0px 25px;
+}
+
+.alert-primary {
+    max-height: 50px;
+    color: white;
+    background-color: #05157f;
+    border-color: #bac3fc;
+    margin-right: 50px;
+}
+
+    .alert-primary > p {
+        margin: 10px;
+    }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+/*THis is for First image on System*/
+.imagenportada {
+    height: 50vh;
+    width: 100%;
+    border: solid;
+    border-color: white;
+    border-radius: 15px;
+}
+
+.button a {
+    color: #ffff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.button:hover {
+    background: none;
+}
+
+.table th {
+    padding: 0.60rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table td {
+    padding: 0 0 0 0.55rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table td p {
+        margin: 0.50rem;
+}
+
+/*Modify modal*/
+
+.modal {
+   
+ 
+  top:0;
+  margin-top:-30px;
+   
+}
+.modal-body {
+width:100%;
+}
+/**MODIFY REPORT*/
+
+#viewer_viewerContainer {
+    position: relative;
+    overflow-y:visible!important;
+    min-height: 65vh;
+  
+}
+
+/* the keyboard we used for Lexus */
+/* keyboard - jQuery UI Widget */
+.ui-keyboard {
+    padding: .3em;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 16000;
+}
+
+.ui-keyboard-has-focus {
+    z-index: 16001;
+}
+
+.ui-keyboard div {
+    font-size: 0.8em;
+}
+
+.ui-keyboard-button {
+    height: 2em;
+    width: 2em;
+    min-width: 2em;
+    margin: .1em;
+    cursor: pointer;
+    overflow: hidden;
+    line-height: 2em;
+}
+
+    .ui-keyboard-button span {
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+.ui-keyboard-button-endrow {
+    clear: left;
+}
+
+.ui-keyboard-widekey {
+    min-width: 4em;
+    width: auto;
+}
+
+.ui-keyboard-space {
+    width: 15em;
+}
+
+    .ui-keyboard-space span {
+        font: 0/0 a;
+        text-shadow: none;
+        color: transparent;
+    }
+/* see http://nicolasgallagher.com/another-css-image-replacement-technique/ */
+.ui-keyboard-preview-wrapper {
+    text-align: center;
+}
+
+.ui-keyboard-preview {
+    text-align: left;
+    margin: 0 0 3px 0;
+    display: inline;
+    width: 99%;
+}
+/* width is calculated in IE, since 99% = 99% full browser width =( */
+.ui-keyboard-keyset {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.ui-keyboard-input {
+    text-align: left;
+}
+
+.ui-keyboard-input-current {
+    -moz-box-shadow: 1px 1px 10px #00f;
+    -webkit-box-shadow: 1px 1px 10px #00f;
+    box-shadow: 1px 1px 10px #00f;
+}
+
+.ui-keyboard-placeholder {
+    color: #888;
+}
+
+.ui-keyboard-nokeyboard {
+    color: #888;
+    border-color: #888;
+}
+/* disabled or readonly inputs, or use input[disabled='disabled'] { color: #f00; } */
+.ui-keyboard-button.disabled {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+/* used by the acceptValid option to make the accept button appear faded */
+.ui-keyboard-spacer {
+    display: inline-block;
+    width: 1px;
+    height: 0;
+}
+
+/* combo key styling - toggles diacritics on/off */
+.ui-keyboard-button.ui-keyboard-combo.ui-state-default {
+    border-color: #ffaf0f;
+}
+
+/* (in)valid inputs */
+button.ui-keyboard-accept.ui-keyboard-valid-input {
+    border-color: #0c0;
+    background: #080;
+    color: #fff;
+}
+
+    button.ui-keyboard-accept.ui-keyboard-valid-input:hover {
+        background: #0a0;
+    }
+
+button.ui-keyboard-accept.ui-keyboard-invalid-input {
+    border-color: #c00;
+    background: #800;
+    color: #fff;
+}
+
+    button.ui-keyboard-accept.ui-keyboard-invalid-input:hover {
+        background: #a00;
+    }
+
+/*** jQuery Mobile definitions ***/
+/* jQuery Mobile styles - need wider buttons because of font size and text-overflow:ellipsis */
+.ui-bar .ui-keyboard-button {
+    width: 3em;
+    display: inline-block;
+}
+
+.ui-bar .ui-keyboard-widekey {
+    width: 5.5em;
+}
+
+.ui-bar .ui-keyboard-space {
+    width: 15em;
+}
+
+    .ui-bar .ui-keyboard-space span {
+        visibility: hidden;
+    }
+/* hides the ellipsis */
+.ui-bar .ui-keyboard-keyset {
+    line-height: 0.5em;
+}
+
+.ui-bar input.ui-input-text, .ui-bar textarea.ui-input-text {
+    width: 95%;
+}
+
+/* over-ride padding set by mobile ui theme - needed because the mobile script wraps button text with several more spans */
+.ui-bar .ui-btn-inner {
+    height: 2em;
+    padding: 0.2em 0;
+    margin: 0;
+}
+
+.ui-bar .ui-btn {
+    margin: 0;
+    font-size: 13px;
+}
+/* mobile default size is 13px */
+
+/* Media Queries (optimized for jQuery UI themes; may be slightly off in jQuery Mobile themes) */
+/* 240 x 320 (small phone)  */
+@media all and (max-width: 319px) {
+    .ui-keyboard div {
+        font-size: 9px;
+    }
+
+    .ui-keyboard .ui-keyboard-input {
+        font-size: 12px;
+    }
+    /* I don't own an iPhone so I have no idea how small this really is... is it even clickable with your finger? */
+    .ui-bar .ui-btn {
+        margin: 0;
+        font-size: 9px;
+    }
+
+    .ui-bar .ui-keyboard-button {
+        width: 1.8em;
+        height: 2.5em;
+    }
+
+    .ui-bar .ui-keyboard-widekey {
+        width: 4em;
+    }
+
+    .ui-bar .ui-keyboard-space {
+        width: 8em;
+    }
+
+    .ui-bar .ui-btn-inner {
+        height: 2.5em;
+        padding: 0.3em 0;
+    }
+}
+
+/* 320 x 480 (iPhone)  */
+@media all and (min-width: 320px) and (max-width: 479px) {
+    .ui-keyboard div {
+        font-size: 9px;
+    }
+
+    .ui-keyboard .ui-keyboard-input {
+        font-size: 14px;
+    }
+    /* I don't own an iPhone so I have no idea how small this really is... is it even clickable with your finger? */
+    .ui-bar .ui-btn {
+        margin: 0;
+        font-size: 11px;
+    }
+
+    .ui-bar .ui-keyboard-button {
+        width: 1.8em;
+        height: 3em;
+    }
+
+    .ui-bar .ui-keyboard-widekey {
+        width: 4.5em;
+    }
+
+    .ui-bar .ui-keyboard-space {
+        width: 10em;
+    }
+
+    .ui-bar .ui-btn-inner {
+        height: 3em;
+        padding: 0.7em 0;
+    }
+}
+
+/* 480 x 640 (small tablet) */
+@media all and (min-width: 480px) and (max-width: 767px) {
+    .ui-keyboard div {
+        font-size: 13px;
+    }
+
+    .ui-keyboard .ui-keyboard-input {
+        font-size: 14px;
+    }
+
+    .ui-bar .ui-btn {
+        margin: 0;
+        font-size: 10px;
+    }
+
+    .ui-bar .ui-keyboard-button {
+        height: 2.5em;
+    }
+
+    .ui-bar .ui-btn-inner {
+        height: 2.5em;
+        padding: 0.5em 0;
+    }
+}

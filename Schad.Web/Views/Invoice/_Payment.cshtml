@@ -1,0 +1,214 @@
+﻿<div class="row space">
+    <div class="col-md-10 space">
+        <div class="row mb-4">
+            <input id="search-items" type="text" class="search" placeholder="Search:" />
+            @Html.DropDownList("CustomerId")
+            <button class="quick-btn mr-1" onclick="Invoice.index('',false);">Quick Launch</button>
+
+        </div>
+        <div class="row mb-lg-4">
+            <div class="col">
+                <button class="btn btn-link" data-id="1" data-toggle="modal" data-target="#paymentModal">
+                    <img src="~/Images/icons/Group 71Pay.svg" class="pay-method" />
+                </button>
+
+            </div>
+
+           
+
+            <div class="col">
+                <button class="btn btn-link " data-id="3" data-toggle="modal" data-target="#paymentModal">
+                    <img src="~/Images/icons/Group 69Pay.svg" class="pay-method" />
+                </button>
+            </div>
+            <input type="hidden" id="PaymentId" />
+        </div>
+        <div class="row couple-btn" hidden>
+            <button class="blue-btn quick-btn mr-3">Check Price</button>
+            <button class="blue-btn quick-btn" hidden>Departments</button>
+        </div>
+    </div>
+    <div class="col-md-2 space d-inline">
+        <img class="d-block" src="~/Images/icons/Scroll Disabledup.svg" />
+        <img class="d-block stick-b" src="~/Images/icons/Scroll Disableddown.svg" />
+    </div>
+</div>
+
+<div class="modal fade" id="paymentModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="paymentModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="payment-total">
+                    <div class="payment-total-subtotal">
+                        <div class="row justify-content-between">
+                            <p id="subtotal-label-pay">Subtotal: </p>
+                            <p id="subtotal-money-pay">$0.00</p>
+                        </div>
+                        <div class="row justify-content-between">
+                            <p id="tax-label-pay">Tax: </p>
+                            <p id="tax-money-pay">$0.00</p>
+                        </div>
+                    </div>
+                    <div class="payment-total-pay">
+                        <div class="row justify-content-between">
+                            <p id="total-label-pay">Total to pay: </p>
+                            <p id="total-money-pay">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="denomination-money">
+                    <div class="currency-line d-flex justify-content-between">
+                        <button id="currency-1" class="currency-btn" data-currency=1>
+                            $1
+                        </button>
+                        <button id="currency-2" class="currency-btn" data-currency=2>
+                            $2
+                        </button>
+                        <button id="currency-5" class="currency-btn" data-currency=5>
+                            $5
+                        </button>
+                    </div>
+                    <div class="currency-line d-flex justify-content-between">
+                        <button id="currency-10" class="currency-btn" data-currency=10>
+                            $10
+                        </button>
+                        <button id="currency-20" class="currency-btn" data-currency=20>
+                            $20
+                        </button>
+                        <button id="currency-50" class="currency-btn" data-currency=50>
+                            $50
+                        </button>
+                    </div>
+                    <div class="currency-line d-flex justify-content-between">
+                        <button id="currency-100" class="currency-btn full-width" data-currency=100>
+                            $100
+                        </button>
+                    </div>
+                    <div class="currency-line">
+                        <div class="input-group mb-3">
+                            
+                            <input id="change-input" type="number" class="form-control text-center">
+                            <div class="input-group-append">
+                                <button id="currency-input-btn" class="btn btn-danger"in type="button">OtherAmount</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="change-money">
+                    <div class="row justify-content-around">
+                        <p>Total Change:</p>
+                        <p id="atmChange"></p>
+                    </div>
+                    <input id="atmChangeValue" type="hidden" value=0 />
+                </div>
+                <div class="finish-invoice">
+                    <button id="finish-btn" data-id="finish-btn" class="">
+                        FINISH
+                    </button>
+                    <button id="print-btn"  data-id="print-btn" class="">
+                        PRINT RECEIPT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $("#finish-btn").on('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        InvoiceLines.addInvoice(true)
+        //var el = $(this);
+        $(this).off(event);
+
+        setTimeout(function () { $(this).disabled = false; }, 5000);
+       
+    });
+  
+
+    $("#print-btn").on("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        InvoiceLines.addInvoice(true)
+        //var el = $(this);
+        $(this).off(event);
+
+        setTimeout(function () { $(this).disabled = false; }, 5000);
+
+    });
+
+   
+    $('#paymentModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var modal = $(this);
+
+        $('#PaymentId').val(Number(id));
+        $('#subtotal-money-pay').html($('#subtotal-money').html());
+        $('#tax-money-pay').html($('#tax-money').html());
+        $('#total-money-pay').html($('#pay-total').html());
+        $('.change-money').hide();
+        var total = Number($('#total-money-pay').html().slice(1));
+        $('#atmChangeValue').val(0);
+        if (id > 1) {
+            modal.find('.denomination-money').hide();
+            modal.find('.finish-invoice').show();
+        } else {
+            onlyCurrency(total);
+            modal.find('.denomination-money').show();
+            modal.find('.finish-invoice').hide();
+
+            $('#change-input').attr('min', total);
+            $('#change-input').val('');
+        }
+    });
+
+    $('.currency-btn').on('click', function (event) {
+        var button = $(event.target);
+        var currency = Number(button.data('currency'));
+        var total = Number($('#total-money-pay').html().slice(1));
+        var changeTotal = currency - total;
+
+        showChange(changeTotal);
+    });
+
+    $('#currency-input-btn').on('click', function () {
+        var total = Number($('#total-money-pay').html().slice(1));
+        var currency = Number($('#change-input').val());
+        if (currency < total) {
+            alert('Try another!');
+            return;
+        }
+        var changeTotal = currency - total;
+
+        showChange(changeTotal);
+    });
+
+    var onlyCurrency = function (total) {
+        $('.currency-btn').each(function (index, value) {
+            var button = $(value);
+            if (button.data('currency') < total) {
+                button.addClass('pay-disabled');
+                button.prop("disabled", true);
+            } else {
+                button.prop("disabled", false);
+                button.removeClass('pay-disabled');
+            }
+        });
+    };
+
+    var showChange = function (changeTotal) {
+        $('.denomination-money').hide();
+        $('.change-money').show();
+        $('.finish-invoice').show();
+
+        $('#atmChange').html('$' + changeTotal.toFixed(2));
+        $('#atmChangeValue').val(changeTotal.toFixed(2));
+        console.log($('#atmChangeValue').val());
+    };
+</script>

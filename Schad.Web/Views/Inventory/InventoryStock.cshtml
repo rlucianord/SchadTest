@@ -1,0 +1,175 @@
+﻿@using SoftPOS.Models
+@model IEnumerable<InventoryViewModel>
+
+@{
+    var tablestocks = new WebGrid(Model, canPage: true, rowsPerPage: 7, canSort: true, defaultSort: "ItemNum",
+ajaxUpdateContainerId: "tablestocksContent",
+selectionFieldName: "selectedRow");
+
+
+}
+<div class="row container-fluid">
+    <div class="col-md-12">
+
+        <div class="row">
+
+            <div class="col-md-9 cols-sm-8">
+
+
+                <div class="input-group mb-3 input-group-lg">
+                    <input class="form-control py-lg-3" type="search" placeholder="Search" aria-label="Search" name="search-stocks-inventory" id="search-stocks-inventory">
+                    @using (Html.BeginForm("InventoryStocks", "Inventory", FormMethod.Post, new { @id = "RestockForm", @onsubmit = "Inventory.addRestock(event)" }))
+                    {
+                        <label>Restock all</label>
+                        <input type="number" id="restock" name="restock" value="0" />
+                        <button class="blue-btn quick-btn">Update All</button>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3 sol-sm-4">
+                <div class="input-group-prepend">
+                    <div class="btnbbottom">
+                       
+                        <button class="btnCreate" data-toggle="modal" data-target="#inventory-modal" onclick="Inventory.create();"> </button>
+
+
+                        <button class="btnExit" onclick="Inventory.exit();">
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="tablestocks" class="col-md-12">
+
+                @tablestocks.GetHtml(tableStyle: "table table-content",
+
+                 fillEmptyRows: false,
+                 alternatingRowStyle: "alternate-row btn-default",
+                 headerStyle: "btn-info btn-lg default",
+                 footerStyle: "pager",
+
+                mode: WebGridPagerModes.All,
+                 previousText: "<<Previous",
+                 nextText: "Next>>",
+
+                columns: tablestocks.Columns(
+                    tablestocks.Column("Department", format: @<text>
+                            @item.Department
+                    </text>, style: ""),
+tablestocks.Column("ItemNum", format: @<text>
+    @item.ItemNum
+</text>, style: ""),
+tablestocks.Column("Description", format: @<text>
+    @item.ItemName
+</text>, style: "col-md-2"),
+tablestocks.Column("Price", format: @<text>
+    @item.Price.ToString("C2")
+</text>, style: "col-md-2"),
+tablestocks.Column("Stock", format: @<text>
+    @item.In_Stock.ToString("F1")
+</text>),
+
+tablestocks.Column("", format: @<text>
+    <input class="restock-value" type="number" id="@item.ItemNum" name="s-@item.ItemNum" value="0" />
+</text>
+),
+
+
+tablestocks.Column("", format: @<text>
+    <button class="blue-btn quick-btn pull-right" onclick="Inventory.addSpeRestock()">Update</button>
+</text>
+)
+
+
+))
+            </div>
+        </div>
+
+
+
+        @*<table class="table" id="table-stocks">
+                <thead>
+                    <tr>
+
+                        <th>Department</th>
+
+                        <th>ItemNum</th>
+                        <th>Item Information</th>
+                        <th>Actual Stock</th>
+                        <th>Quantity to add</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="tr-@count" data-id="@item.ItemNum" class="w-100">
+                            <td>@item.Department</td>
+                            <td>@item.ItemNum</td>
+                            <td>@item.ItemName</td>
+                            <td>@item.In_Stock.ToString("F1")</td>
+                            <td>
+                                <input class="restock-value" type="number" id="@item.ItemNum" name="s-@item.ItemNum" value="0" />
+                            </td>
+                            <td>
+                                <button class="blue-btn quick-btn pull-right" onclick="Inventory.addSpeRestock()">Update</button>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>*@
+
+
+    </div>
+
+</div>
+@Html.Partial("_Modal")
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/app/InventoryPartialViews.js"></script>
+
+<script>
+    $("#tablestocks tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+    $(document).ready(function () {
+        document.getElementById("search-stocks-inventory").focus();
+        // $('.dropdown-toggle').dropdown()
+
+
+    });
+    $("#search-stocks-inventory").on("keypress", function (e) {
+        var value = $(this).val().toLowerCase();
+        if (e.which == 13) {
+
+            $("#tablestocks tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+        }
+
+    });
+
+    //$(document).on("keypress", "#search-items", function (e) {
+    //    if (e.which == 13) {
+    //        var inputVal = $(this).val();
+    //        Invoice.index(search - stocks - inventory, true);
+    //    }
+    //});
+
+
+    $(".table table-content tr").click(function () {
+        var selector = $(this);
+        $('tr td:first-child').removeClass("selected");
+        $('#' + selector.attr('id') + ' td:first-child').addClass("selected");
+    });
+
+</script>

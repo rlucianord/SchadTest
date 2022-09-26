@@ -1,0 +1,396 @@
+﻿@model  Schad.Models.Data.Invoice
+
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row ml-2 mr-5">
+    <div class="col-md-8">
+        <div id="main" class="space">
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row align-content-start" id="item-invoice">
+        </div>
+        <div class="row full-width invoce-action">
+            <div class="col-12">
+                <div class="row justify-content-end">
+                    <p id="subtotal-label">Subtotal: </p>
+                    <p id="subtotal-money">$0.00</p>
+                </div>
+                <div class="row justify-content-end">
+                    <p id="tax-label">Tax: </p>
+                    <p id="tax-money">$0.00</p>
+                </div>
+                <div class="row">
+                    <div class="pay-btn d-flex" onclick="Invoice.payment()">
+                        <div class="flex-grow-1 align-self-center" id="pay-text">
+                            <p>Payment</p>
+                        </div>
+                        <div id="pay-money" class="align-self-center">
+                            <p id="pay-total">$00.0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group">
+                 
+                        <button class="btn btn-link mr-auto" data-toggle="modal" data-target="#ConfirmDeleteNamemodal">
+                            <img src="~/Images/icons/clearbottom.svg" width="60" />
+                        </button>
+                        @*<button id="holdNameBtn" class="btn btn-link m-auto" data-toggle="modal" data-target="#holdNamemodal">
+                                <img src="~/Images/icons/holdbottom.svg" width="60" />
+                            </button>
+                            <button id="holdListBtn" class="btn btn-link m-auto d-none" data-toggle="modal" data-target="#holdListmodal">
+                                <img src="~/Images/icons/unhold.svg" width="60" />
+                            </button>*@
+                        @*<button class="btn btn-link m-auto">
+                                <img src="~/Images/icons/addclientbottom.svg" />
+                            </button>*@
+                        <button class="btn btn-link ml-auto">
+                            <img src="~/Images/icons/savebottom.svg" width="60" onclick="Invoice.payment()" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Template item-invoice-->
+<textarea style="display:none" id="template">
+<div class="item-invoice d-flex full-width align-self-start" id="{0}" data-id="{0}" data-quantity="{3}" data-price="{1}">
+<div class="d-inline-block info-invoice d-inline-flex justify-content-between">
+<div class="d-inline-block delete-invoice align-self-center">
+<button class="btn btn-link p-0" type="button" onclick="InvoiceLines.del('{0}')">
+<img src="~/Images/icons/delete.svg">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </button>
+            </div>
+<div class="text-info-invoice d-inline-block">
+    <p>{0} @@ {1}</p>
+    <p>{2}</p>
+    <p class="quantity-info">x{3}@@{4}</p>
+    <div class="quantity-info d-inline-block align-self-center ">
+
+    </div>
+    <div">
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+</textarea>
+
+@section buttonFooter {
+
+
+
+}
+<!--Modal item lines-->
+<div class="modal fade" id="opt-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="opt-modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="opt-item mt-5">
+                    <input id="opt-input" class="full-width text-center" type="number" placeholder="!!!" />
+                </div>
+                <div class="opt-button">
+                    <button class="blue-btn mr-3" id="btn-opt-apply" onclick="InvoiceLines.optApply(this);" data-dismiss="modal" aria-label="Close">Apply</button>
+                    <button data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Hold name-->
+<div class="modal fade" id="ConfirmDeleteNamemodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ConfirmDeleteTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="mt-5 mb-3">
+                    <div class="input-group">
+                        <div class="alert-danger">
+                            Please confirm the action, you will loose any data, if is in hold, the invoice will be deleted!
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer float-md-right">
+                <button id="holdNameBtn" class="btn btn-primary" type="button" onclick="InvoiceLines.canceldelete();" data-dismiss="modal" aria-label="Close">Cancel</button>
+                <button id="holdNameBtn" class="btn btn-warning" type="button" onclick="InvoiceLines.clearLines();" data-dismiss="modal" aria-label="Close">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--Modal Hold list-->
+<div class="modal fade" id="holdNamemodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="holdNameTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="mt-5 mb-3">
+                    <div class="input-group">
+                        <input id="holdName" type="text" maxlength="15" class="form-control text-center" placeholder="Name for the hold">
+                        <div class="input-group-append">
+                            <button id="holdNameBtn" class="btn btn-warning" type="button" onclick="InvoiceLines.addHold();" data-dismiss="modal" aria-label="Close">Hold</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="holdListmodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="holdListTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div id="holdList" class="mt-5 mb-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----Department-->
+<div class="modal fade" id="departments" tabindex="-1" role="dialog" aria-labelledby="departmentsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="departmentsLabel">Maintainance: @ViewBag.Title</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+
+                <div id="departments-modal-content">
+
+                    Loading...
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@*End*@
+
+
+
+@section scripts {
+    <script src="~/Scripts/app/InvoicePartialViews.js"></script>
+    <script src="~/Scripts/app/Invoice.js"></script>
+    <script src="~/Scripts/app/InventoryPartialViews.js"></script>
+
+    <script>
+        $('#holdListBtn').hide();
+        $('.dropdown-toggle').dropdown();
+        Invoice.index("", false);
+        $(document).on("keypress", "#search-items", function (e) {
+            if (e.which == 13) {
+                var inputVal = $(this).val();
+                if (inputVal !== "")
+                    Invoice.index(inputVal, true);
+            }
+        });
+        $(document).on("input", "#ItemNum", function (e) {
+            var inputVal = $(this).val();
+            if (inputVal.length >= 13) {
+                $(this).text = inputVal;
+            }
+        });
+        ///search de[artment]
+        function Search() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-items-departments");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("table-departments");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        //CONTROL DEPARTMENTS
+        $(document).on("keypress", "#search-items-departments", function (e) {
+            if (e.which == 13) {
+
+                Search();
+            }
+        });
+
+
+        //END CONNTROL
+
+        $(document).on("keypress", "#search-items-inventory", function (e) {
+            if (e.which == 13) {
+                var inputVal = $(this).val();
+                Inventory.index(inputVal);
+            }
+        });
+        $(document).on("input", "#search-items-inventory", function (e) {
+            var inputVal = $(this).val();
+            if (inputVal.length >= 14) {
+                Inventory.index(inputVal);
+            }
+        });
+
+        $(document).on("keypress", "#search-stocks-inventory", function (e) {
+            if (e.which == 13) {
+                var inputVal = $(this).val();
+                Inventory.restock(inputVal);
+            }
+        });
+
+        $('#opt-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var input = $('#opt-input');
+            var applyBtn = $('#btn-opt-apply');
+            var id = button.data('id');
+            var quantity = Number(button.data('quantity'));
+            var price = Number(button.data('price'));
+            var discount = button.data('discount');
+            var modal = $(this);
+
+            input.val(null);
+
+            if (quantity > 0) {
+                input.attr('placeholder', 'Quantity: x' + quantity);
+                applyBtn.data('action', 'quantity');
+                applyBtn.data('id', id);
+            }
+            if (price > 0) {
+                input.attr('placeholder', 'Price: $' + price);
+                applyBtn.data('action', 'price');
+                applyBtn.data('id', id);
+            }
+            if (discount == 0) {
+                input.attr('placeholder', 'Discount: ');
+                applyBtn.data('action', 'discount');
+                applyBtn.data('id', id);
+            }
+        });
+
+        $('#opt-modal').on('hide.bs.modal', function () {
+            var applyBtn = $('#btn-opt-apply');
+            applyBtn.data('action', null);
+            applyBtn.data('id', null);
+        });
+
+
+
+
+
+
+    </script>
+
+
+    @*<div class="d-inline-block menu-invoice align-self-center">
+            <div class="dropdown">
+                <button class="btn btn-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="~/Images/icons/optionmenu.svg" />
+
+
+
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button" data-toggle="modal" data-target="#opt-modal" data-id="{0}" data-quantity="{3}">Quantity</button>
+                    <button class="dropdown-item" type="button" data-toggle="modal" data-target="#opt-modal" data-id="{0}" data-price="{1}">Change price</button>
+                </div>
+            </div>
+        </div>*@
+}

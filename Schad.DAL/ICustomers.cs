@@ -7,13 +7,17 @@ using Schad.Models.Data;
 
 namespace Schad.DAL
 {
-    public  interface ICusromers
+    public  interface ICustomers
     {
         void AddCustomer(Customer customer);
         Customer GetCustomer(int Id);
         void UpdateCustomer(Customer customer);
         IEnumerable<Customer> CustomersList();
-
+        IEnumerable<CustomerType> CustomerTypes();
+        CustomerType GetCustomerType(int Id);
+        void AddCustomerType(CustomerType customerType);
+        void UpdateCustomerType(CustomerType customerType);
 
     }
+
 }

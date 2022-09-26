@@ -1,208 +1,262 @@
-
--- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
--- --------------------------------------------------
--- Date Created: 09/26/2022 14:35:08
--- Generated from EDMX file: C:\Users\ruben\source\repos\Schad\Schad.Models\Data\DataModel.edmx
--- --------------------------------------------------
-
-SET QUOTED_IDENTIFIER OFF;
+USE [master]
 GO
-USE [SchadTest];
+/****** Object:  Database [SchadTest]    Script Date: 26/09/2022 19:21:37 ******/
+CREATE DATABASE [SchadTest]
 GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+ALTER DATABASE [SchadTest] SET COMPATIBILITY_LEVEL = 130
 GO
-
--- --------------------------------------------------
--- Dropping existing FOREIGN KEY constraints
--- --------------------------------------------------
-
-IF OBJECT_ID(N'[dbo].[FK_Customers_CustomerTypes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Customers] DROP CONSTRAINT [FK_Customers_CustomerTypes];
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [SchadTest].[dbo].[sp_fulltext_database] @action = 'enable'
+end
 GO
-IF OBJECT_ID(N'[dbo].[FK_Invoice_Customers]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Invoice] DROP CONSTRAINT [FK_Invoice_Customers];
+ALTER DATABASE [SchadTest] SET ANSI_NULL_DEFAULT OFF 
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvoiceDetails_Products]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvoiceDetails] DROP CONSTRAINT [FK_InvoiceDetails_Products];
+ALTER DATABASE [SchadTest] SET ANSI_NULLS OFF 
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvoiceInvoiceDetails]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvoiceDetails] DROP CONSTRAINT [FK_InvoiceInvoiceDetails];
+ALTER DATABASE [SchadTest] SET ANSI_PADDING OFF 
 GO
-
--- --------------------------------------------------
--- Dropping existing tables
--- --------------------------------------------------
-
-IF OBJECT_ID(N'[dbo].[Customers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Customers];
+ALTER DATABASE [SchadTest] SET ANSI_WARNINGS OFF 
 GO
-IF OBJECT_ID(N'[dbo].[CustomerTypes]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[CustomerTypes];
+ALTER DATABASE [SchadTest] SET ARITHABORT OFF 
 GO
-IF OBJECT_ID(N'[dbo].[Invoice]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Invoice];
+ALTER DATABASE [SchadTest] SET AUTO_CLOSE OFF 
 GO
-IF OBJECT_ID(N'[dbo].[InvoiceDetails]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvoiceDetails];
+ALTER DATABASE [SchadTest] SET AUTO_SHRINK OFF 
 GO
-IF OBJECT_ID(N'[dbo].[Products]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Products];
+ALTER DATABASE [SchadTest] SET AUTO_UPDATE_STATISTICS ON 
 GO
-
--- --------------------------------------------------
--- Creating all tables
--- --------------------------------------------------
-
--- Creating table 'Customers'
-CREATE TABLE [dbo].[Customers] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [CustName] varchar(150)  NOT NULL,
-    [Address] varchar(150)  NULL,
-    [Status] bit  NOT NULL,
-    [CustomerTypeId] int  NULL
-);
+ALTER DATABASE [SchadTest] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
-
--- Creating table 'CustomerTypes'
-CREATE TABLE [dbo].[CustomerTypes] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Description] varchar(50)  NULL
-);
+ALTER DATABASE [SchadTest] SET CURSOR_DEFAULT  GLOBAL 
 GO
-
--- Creating table 'Invoice'
-CREATE TABLE [dbo].[Invoice] (
-    [Id] int  NOT NULL,
-    [CustomerId] int  NOT NULL,
-    [Subtotal] decimal(18,0)  NOT NULL,
-    [TotalItbis] decimal(18,0)  NOT NULL,
-    [Total] decimal(18,0)  NOT NULL,
-    [DateCreated] datetime  NOT NULL
-);
+ALTER DATABASE [SchadTest] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
-
--- Creating table 'InvoiceDetails'
-CREATE TABLE [dbo].[InvoiceDetails] (
-    [Id] int  NOT NULL,
-    [InvoiceId] int  NOT NULL,
-    [Qty] int  NOT NULL,
-    [Price] decimal(8,3)  NOT NULL,
-    [ProductId] int  NOT NULL,
-    [TotalItebis] decimal(18,0)  NULL,
-    [Subtotal] decimal(18,0)  NULL,
-    [Total] decimal(18,0)  NULL,
-    [DeteCreated] datetime  NULL
-);
+ALTER DATABASE [SchadTest] SET NUMERIC_ROUNDABORT OFF 
 GO
-
--- Creating table 'Products'
-CREATE TABLE [dbo].[Products] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Description] varchar(50)  NULL,
-    [Price] decimal(18,0)  NULL,
-    [In_Stock] float  NULL
-);
+ALTER DATABASE [SchadTest] SET QUOTED_IDENTIFIER OFF 
 GO
-
--- --------------------------------------------------
--- Creating all PRIMARY KEY constraints
--- --------------------------------------------------
-
--- Creating primary key on [Id] in table 'Customers'
-ALTER TABLE [dbo].[Customers]
-ADD CONSTRAINT [PK_Customers]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+ALTER DATABASE [SchadTest] SET RECURSIVE_TRIGGERS OFF 
 GO
-
--- Creating primary key on [Id] in table 'CustomerTypes'
-ALTER TABLE [dbo].[CustomerTypes]
-ADD CONSTRAINT [PK_CustomerTypes]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+ALTER DATABASE [SchadTest] SET  DISABLE_BROKER 
 GO
-
--- Creating primary key on [Id] in table 'Invoice'
-ALTER TABLE [dbo].[Invoice]
-ADD CONSTRAINT [PK_Invoice]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+ALTER DATABASE [SchadTest] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
-
--- Creating primary key on [Id] in table 'InvoiceDetails'
-ALTER TABLE [dbo].[InvoiceDetails]
-ADD CONSTRAINT [PK_InvoiceDetails]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+ALTER DATABASE [SchadTest] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
-
--- Creating primary key on [Id] in table 'Products'
-ALTER TABLE [dbo].[Products]
-ADD CONSTRAINT [PK_Products]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+ALTER DATABASE [SchadTest] SET TRUSTWORTHY OFF 
 GO
-
--- --------------------------------------------------
--- Creating all FOREIGN KEY constraints
--- --------------------------------------------------
-
--- Creating foreign key on [CustomerTypeId] in table 'Customers'
-ALTER TABLE [dbo].[Customers]
-ADD CONSTRAINT [FK_Customers_CustomerTypes]
-    FOREIGN KEY ([CustomerTypeId])
-    REFERENCES [dbo].[CustomerTypes]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER DATABASE [SchadTest] SET ALLOW_SNAPSHOT_ISOLATION OFF 
 GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Customers_CustomerTypes'
-CREATE INDEX [IX_FK_Customers_CustomerTypes]
-ON [dbo].[Customers]
-    ([CustomerTypeId]);
+ALTER DATABASE [SchadTest] SET PARAMETERIZATION SIMPLE 
 GO
-
--- Creating foreign key on [CustomerId] in table 'Invoice'
-ALTER TABLE [dbo].[Invoice]
-ADD CONSTRAINT [FK_Invoice_Customers]
-    FOREIGN KEY ([CustomerId])
-    REFERENCES [dbo].[Customers]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER DATABASE [SchadTest] SET READ_COMMITTED_SNAPSHOT OFF 
 GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Invoice_Customers'
-CREATE INDEX [IX_FK_Invoice_Customers]
-ON [dbo].[Invoice]
-    ([CustomerId]);
+ALTER DATABASE [SchadTest] SET HONOR_BROKER_PRIORITY OFF 
 GO
-
--- Creating foreign key on [InvoiceId] in table 'InvoiceDetails'
-ALTER TABLE [dbo].[InvoiceDetails]
-ADD CONSTRAINT [FK_InvoiceInvoiceDetails]
-    FOREIGN KEY ([InvoiceId])
-    REFERENCES [dbo].[Invoice]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER DATABASE [SchadTest] SET RECOVERY SIMPLE 
 GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvoiceInvoiceDetails'
-CREATE INDEX [IX_FK_InvoiceInvoiceDetails]
-ON [dbo].[InvoiceDetails]
-    ([InvoiceId]);
+ALTER DATABASE [SchadTest] SET  MULTI_USER 
 GO
-
--- Creating foreign key on [ProductId] in table 'InvoiceDetails'
-ALTER TABLE [dbo].[InvoiceDetails]
-ADD CONSTRAINT [FK_InvoiceDetails_Products]
-    FOREIGN KEY ([ProductId])
-    REFERENCES [dbo].[Products]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER DATABASE [SchadTest] SET PAGE_VERIFY CHECKSUM  
 GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvoiceDetails_Products'
-CREATE INDEX [IX_FK_InvoiceDetails_Products]
-ON [dbo].[InvoiceDetails]
-    ([ProductId]);
+ALTER DATABASE [SchadTest] SET DB_CHAINING OFF 
 GO
-
--- --------------------------------------------------
--- Script has ended
--- --------------------------------------------------
+ALTER DATABASE [SchadTest] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [SchadTest] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [SchadTest] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [SchadTest] SET QUERY_STORE = OFF
+GO
+USE [SchadTest]
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+GO
+USE [SchadTest]
+GO
+/****** Object:  Table [dbo].[Customers]    Script Date: 26/09/2022 19:21:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customers](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CustName] [varchar](150) NOT NULL,
+	[Address] [varchar](150) NULL,
+	[Status] [bit] NOT NULL,
+	[CustomerTypeId] [int] NULL,
+ CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CustomerTypes]    Script Date: 26/09/2022 19:21:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CustomerTypes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Description] [varchar](50) NULL,
+ CONSTRAINT [PK_CustomerTypes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[InvoiceDetails]    Script Date: 26/09/2022 19:21:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[InvoiceDetails](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[InvoiceId] [bigint] NOT NULL,
+	[Qty] [int] NOT NULL,
+	[Price] [decimal](8, 3) NOT NULL,
+	[ProductId] [int] NOT NULL,
+	[TotalItebis] [decimal](18, 0) NULL,
+	[Subtotal] [decimal](18, 0) NULL,
+	[Total] [decimal](18, 0) NULL,
+	[DeteCreated] [datetime] NULL,
+ CONSTRAINT [PK_InvoiceDetails] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Invoices]    Script Date: 26/09/2022 19:21:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Invoices](
+	[Id] [bigint] NOT NULL,
+	[CustomerId] [int] NULL,
+	[Subtotal] [decimal](18, 0) NOT NULL,
+	[TotalItbis] [decimal](18, 0) NOT NULL,
+	[Total] [decimal](18, 0) NOT NULL,
+	[DateCreated] [datetime] NOT NULL,
+ CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Products]    Script Date: 26/09/2022 19:21:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Products](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Description] [varchar](50) NULL,
+	[Price] [decimal](18, 0) NULL,
+	[In_Stock] [float] NULL,
+ CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Customers] ON 
+GO
+INSERT [dbo].[Customers] ([Id], [CustName], [Address], [Status], [CustomerTypeId]) VALUES (1, N'RUBEN LUCIANO', N'CCCC', 1, 2)
+GO
+SET IDENTITY_INSERT [dbo].[Customers] OFF
+GO
+SET IDENTITY_INSERT [dbo].[CustomerTypes] ON 
+GO
+INSERT [dbo].[CustomerTypes] ([Id], [Description]) VALUES (1, N'Comercial')
+GO
+INSERT [dbo].[CustomerTypes] ([Id], [Description]) VALUES (2, N'Persona')
+GO
+INSERT [dbo].[CustomerTypes] ([Id], [Description]) VALUES (3, N'Tipo Dos')
+GO
+SET IDENTITY_INSERT [dbo].[CustomerTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[InvoiceDetails] ON 
+GO
+INSERT [dbo].[InvoiceDetails] ([Id], [InvoiceId], [Qty], [Price], [ProductId], [TotalItebis], [Subtotal], [Total], [DeteCreated]) VALUES (4, 100000, 1, CAST(200.000 AS Decimal(8, 3)), 1, CAST(36 AS Decimal(18, 0)), CAST(200 AS Decimal(18, 0)), CAST(236 AS Decimal(18, 0)), NULL)
+GO
+INSERT [dbo].[InvoiceDetails] ([Id], [InvoiceId], [Qty], [Price], [ProductId], [TotalItebis], [Subtotal], [Total], [DeteCreated]) VALUES (5, 100000, 1, CAST(47.000 AS Decimal(8, 3)), 3, CAST(8 AS Decimal(18, 0)), CAST(47 AS Decimal(18, 0)), CAST(55 AS Decimal(18, 0)), NULL)
+GO
+INSERT [dbo].[InvoiceDetails] ([Id], [InvoiceId], [Qty], [Price], [ProductId], [TotalItebis], [Subtotal], [Total], [DeteCreated]) VALUES (6, 100001, 1, CAST(200.000 AS Decimal(8, 3)), 1, CAST(36 AS Decimal(18, 0)), CAST(200 AS Decimal(18, 0)), CAST(236 AS Decimal(18, 0)), NULL)
+GO
+SET IDENTITY_INSERT [dbo].[InvoiceDetails] OFF
+GO
+INSERT [dbo].[Invoices] ([Id], [CustomerId], [Subtotal], [TotalItbis], [Total], [DateCreated]) VALUES (100000, NULL, CAST(247 AS Decimal(18, 0)), CAST(44 AS Decimal(18, 0)), CAST(291 AS Decimal(18, 0)), CAST(N'2022-09-26T17:07:15.297' AS DateTime))
+GO
+INSERT [dbo].[Invoices] ([Id], [CustomerId], [Subtotal], [TotalItbis], [Total], [DateCreated]) VALUES (100001, 1, CAST(200 AS Decimal(18, 0)), CAST(36 AS Decimal(18, 0)), CAST(236 AS Decimal(18, 0)), CAST(N'2022-09-26T18:14:39.447' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Products] ON 
+GO
+INSERT [dbo].[Products] ([Id], [Description], [Price], [In_Stock]) VALUES (1, N'PAPA', CAST(200 AS Decimal(18, 0)), 1000)
+GO
+INSERT [dbo].[Products] ([Id], [Description], [Price], [In_Stock]) VALUES (2, N'MAIZ', CAST(100 AS Decimal(18, 0)), 1000)
+GO
+INSERT [dbo].[Products] ([Id], [Description], [Price], [In_Stock]) VALUES (3, N'YUCA', CAST(47 AS Decimal(18, 0)), 1000)
+GO
+INSERT [dbo].[Products] ([Id], [Description], [Price], [In_Stock]) VALUES (4, N'LIMON', CAST(100 AS Decimal(18, 0)), 1000)
+GO
+INSERT [dbo].[Products] ([Id], [Description], [Price], [In_Stock]) VALUES (5, N'AHUYAMA', CAST(60 AS Decimal(18, 0)), 1000)
+GO
+SET IDENTITY_INSERT [dbo].[Products] OFF
+GO
+/****** Object:  Index [IX_FK_Customers_CustomerTypes]    Script Date: 26/09/2022 19:21:37 ******/
+CREATE NONCLUSTERED INDEX [IX_FK_Customers_CustomerTypes] ON [dbo].[Customers]
+(
+	[CustomerTypeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_InvoiceDetails_Products]    Script Date: 26/09/2022 19:21:37 ******/
+CREATE NONCLUSTERED INDEX [IX_FK_InvoiceDetails_Products] ON [dbo].[InvoiceDetails]
+(
+	[ProductId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_InvoiceInvoiceDetails]    Script Date: 26/09/2022 19:21:37 ******/
+CREATE NONCLUSTERED INDEX [IX_FK_InvoiceInvoiceDetails] ON [dbo].[InvoiceDetails]
+(
+	[InvoiceId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_Invoice_Customers]    Script Date: 26/09/2022 19:21:37 ******/
+CREATE NONCLUSTERED INDEX [IX_FK_Invoice_Customers] ON [dbo].[Invoices]
+(
+	[CustomerId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Customers]  WITH CHECK ADD  CONSTRAINT [FK_Customers_CustomerTypes] FOREIGN KEY([CustomerTypeId])
+REFERENCES [dbo].[CustomerTypes] ([Id])
+GO
+ALTER TABLE [dbo].[Customers] CHECK CONSTRAINT [FK_Customers_CustomerTypes]
+GO
+ALTER TABLE [dbo].[InvoiceDetails]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceDetails_Products] FOREIGN KEY([ProductId])
+REFERENCES [dbo].[Products] ([Id])
+GO
+ALTER TABLE [dbo].[InvoiceDetails] CHECK CONSTRAINT [FK_InvoiceDetails_Products]
+GO
+ALTER TABLE [dbo].[InvoiceDetails]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceInvoiceDetails] FOREIGN KEY([InvoiceId])
+REFERENCES [dbo].[Invoices] ([Id])
+GO
+ALTER TABLE [dbo].[InvoiceDetails] CHECK CONSTRAINT [FK_InvoiceInvoiceDetails]
+GO
+ALTER TABLE [dbo].[Invoices]  WITH CHECK ADD  CONSTRAINT [FK_Invoice_Customers] FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customers] ([Id])
+GO
+ALTER TABLE [dbo].[Invoices] CHECK CONSTRAINT [FK_Invoice_Customers]
+GO
+USE [master]
+GO
+ALTER DATABASE [SchadTest] SET  READ_WRITE 
+GO

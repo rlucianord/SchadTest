@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Schad.DAL;
 using Schad.Models.Data;
 using Schad.Web.Models;
 
@@ -26,6 +27,29 @@ namespace Schad.Web.Controllers
             return View(customers);
         }
 
+        public ActionResult CustomersTypes()
+        {
+            var customersTypes = Customers.CustomerTypes();
+            return View(customersTypes);
+        }
+
+        public ActionResult CreateCustomersTypes()
+        {
+            var CustomerType = new CustomerType();
+            return View(CustomerType);
+        }
+        [HttpPost]
+        public ActionResult CreateCustomersTypes(CustomerType customerType)
+        {
+            if (ModelState.IsValid)
+            {
+                Customers.AddCustomerType(customerType);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(customerType);
+        }
+        // GET: Custo
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
@@ -45,8 +69,8 @@ namespace Schad.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.CustomerTypeId = new SelectList(db.CustomerTypes, "Id", "Description");
-
-            return View();
+            var customer = new Customer();
+            return View(customer);
         }
 
         // POST: Customers/Create

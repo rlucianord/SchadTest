@@ -154,39 +154,6 @@ namespace Schad.Web.Controllers
             var data = inventory.GetInventories(name).ToList();
             return View(data);
         }
-        [HttpPost]
-        public ActionResult InventoryAllStocks(int restock)
-        {
-            string result = null;
-            try
-            {
-                //   inventory.ExecuteQuery("UPDATE Inventory SET In_Stock = (In_Stock + " + restock + ")");
-                string str = string.Format("Exec [P_UpdateStock]  '{0}'", restock);
-                inventory.ExecuteQuery(str);
-            }
-            catch (Exception e)
-            {
-                result = "An error has occurred! Message: " + e.Message;
-            }
-            return Json(result);
-        }
-
-        [HttpPost]
-        public ActionResult InventoryStocks(Models.RestockViewModel[] data)
-        {
-            string result = null;
-            try
-            {
-                foreach (var item in data)
-                {
-                    inventory.ManageStock(item.id, item.value);
-                }
-            }
-            catch (Exception e)
-            {
-                result = "An error has occurred! Message: " + e.Message;
-            }
-            return Json(result);
-        }
+        
     }
 }
